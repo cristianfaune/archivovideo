@@ -5,6 +5,8 @@
  */
 package cl.controlador;
 
+import cl.dominio.Usuario;
+import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -44,37 +46,41 @@ public class ValidarIngresoServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String rut = request.getParameter("rut");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
-        Map<String, String> mapMensajeRut = new HashMap<>();
+        Map<String, String> mapMensajeEmail = new HashMap<>();
         Map<String, String> mapMensajePass = new HashMap<>();
         HttpSession session = request.getSession();
+        Usuario usuario = null;
 
         try (Connection con = ds.getConnection()) {
 
+            Servicio servicio = new Servicio(con);
+            
+            usuario = servicio.buscarUsuarioEmail(email);
 
-            if (rut.isEmpty() || rut == null) {
-                mapMensajeRut.put("errorRut", "Debe ingresar su RUT");
-            } else if (doctor == null) {
-                mapMensajeRut.put("errorRut", "El usuario rut " + rut + " no existe");
+            if (email.isEmpty() || email == null) {
+                mapMensajeEmail.put("errorEmail", "Debe ingresar su email");
+            } else if (usuario == null) {
+                mapMensajeEmail.put("errorEmail", "El usuario con email " + email + " no existe");
             }
 
             if (password.isEmpty() || password == null) {
                 mapMensajePass.put("errorPass", "Debe ingresar su PASSWORD");
-            } else if (doctor != null) {
-                if (!doctor.getPassword().equals(password)) {
+            } else if (usuario != null) {
+                if (!usuario.getPassword().equals(password)) {
                     mapMensajePass.put("errorPass", "Su password no coincide con el registro");
                 }
             }
 
-            if (mapMensajePass.isEmpty() && mapMensajeRut.isEmpty()) {
+            if (mapMensajePass.isEmpty() && mapMensajeEmail.isEmpty()) {
 
-                session.setAttribute("doctor", doctor);
+                session.setAttribute("usuarioSesion", usuario);
                 request.getRequestDispatcher("/Menu.jsp").forward(request, response);
 
             } else {
                 request.setAttribute("mapMensajePass", mapMensajePass);
-                request.setAttribute("mapMensajeRut", mapMensajeRut);
+                request.setAttribute("mapMensajeEmail", mapMensajeEmail);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
 

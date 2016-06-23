@@ -5,6 +5,7 @@
  */
 package cl.dominio;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class Video {
     private String idVideo;
     private String nombre;
-    private Timestamp fechaOrigen;
+    private Date fechaOrigen;
     private Timestamp fechaSubida;
     private String duracion;
     private String descripcion;
@@ -24,7 +25,7 @@ public class Video {
     private String idResolucion;
     private String rut;
 
-    public Video(String idVideo, String nombre, Timestamp fechaOrigen, Timestamp fechaSubida, String duracion, String descripcion, String rutaArchivoVideo, String idCategoria, String idResolucion, String rut) {
+    public Video(String idVideo, String nombre, Date fechaOrigen, Timestamp fechaSubida, String duracion, String descripcion, String rutaArchivoVideo, String idCategoria, String idResolucion, String rut) {
         this.idVideo = idVideo;
         this.nombre = nombre;
         this.fechaOrigen = fechaOrigen;
@@ -56,11 +57,11 @@ public class Video {
         this.nombre = nombre;
     }
 
-    public Timestamp getFechaOrigen() {
+    public Date getFechaOrigen() {
         return fechaOrigen;
     }
 
-    public void setFechaOrigen(Timestamp fechaOrigen) {
+    public void setFechaOrigen(Date fechaOrigen) {
         this.fechaOrigen = fechaOrigen;
     }
 

@@ -11,58 +11,58 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
+        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
         <title>Login</title>
     </head>
-    <body onload="javascript:history.go(1)" id="page-top" class="index">
-        <h1 align="center">Ingreso</h1>
-        <div class="container-fluid">
+    <body>
+        <div class="container" id="margen-login">
+            <h4 align="center" id="titulo-index">Sistema de administración de archivo audiovisual</h4>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-1">
+                    <div id="centrar-logo">
+                        <img id="img" src="img/play-icon.png" alt="logo" width="80"/>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <form class="form-horizontal" action="<c:url value="/ValidarIngreso"/>" method="post">
-                        <c:if test="${empty mapMensajeRut}">
-                            <div class="form-group has-success col-lg-8">
-                                <label class="control-label" for="inputSuccess1">Rut:</label>
-                                <input type="text" class="form-control" id="inputSuccess1" 
-                                       name="rut" aria-describedby="helpBlock2" placeholder="Ingrese su Rut" autofocus="true">
-                                <span id="helpBlock2" class="help-block"></span>
+                <div class="col-md-10 col-md-offset-3">
+                    <form class="form-inline" action="<c:url value="/ValidarIngresoServlet"/>" method="post">
+                        <c:if test="${empty mapMensajeEmail}">
+                            <div class="form-group has-success">
+                                <label class="control-label" for="inputSuccess1">Email:</label>
+                                <input type="email" class="form-control" id="inputSuccess1" 
+                                       name="email" aria-describedby="helpBlock2" placeholder="Ingrese email" 
+                                       autofocus="true" value="<c:out value="${param.email}"/>">
                             </div>
                         </c:if>
-                        <c:if test="${not empty mapMensajeRut}">
-                            <div class="form-group has-error col-lg-8">
-                                <label class="control-label" for="inputError1"><c:out value="${mapMensajeRut['errorRut']}"/></label>
-                                <input type="text" class="form-control" 
-                                       id="inputError1" name="rut" placeholder="Ingrese su rut" autofocus="true">
+                        <c:if test="${not empty mapMensajeEmail}">
+                            <div class="form-group has-error">
+                                <label class="control-label" for="inputSuccess1">Email:</label>
+                                <input type="email" class="form-control" 
+                                       id="inputError1" name="email" placeholder="Ingrese su email" autofocus="true"
+                                       value="<c:out value="${param.email}"/>">
                             </div>
                         </c:if>
                         <c:if test="${empty mapMensajePass}">
-                            <div class="form-group has-success col-lg-8">
+                            <div class="form-group has-success">
                                 <label class="control-label" for="inputSuccess2">Password:</label>
                                 <input type="password" class="form-control" id="inputSuccess1" 
-                                       name="password" aria-describedby="helpBlock2" placeholder="Ingrese su Password">
-                                <span id="helpBlock2" class="help-block"></span>
+                                       name="password" aria-describedby="helpBlock2" placeholder="Ingrese su Password"
+                                       value="<c:out value="${param.password}"/>">
                             </div>
                         </c:if>
                         <c:if test="${not empty mapMensajePass}">
-                            <div class="form-group has-error col-lg-8">
-                                <label class="control-label" for="inputError2"><c:out value="${mapMensajePass['errorPass']}"/></label>
-                                <input type="password" class="form-control" 
-                                       id="inputError1" name="password" placeholder="Ingrese su Password">
+                            <div class="form-group has-error">
+                                <label class="control-label" for="inputSuccess2">Password:</label>
+                                <input type="password" class="form-control" id="inputError1" name="password" placeholder="Ingrese su Password"
+                                       value="<c:out value="${param.password}"/>"
                             </div>
                         </c:if>
-                        <div class="form-group">
-                            <div class="col-sm-offset-0 col-sm-10">
-                                <input type="submit" class="btn btn-default" value="Iniciar Sesión"/>
-                            </div>
-                        </div>
+                        <button type="submit" class="btn btn-default">Iniciar Sesión</button>
                     </form>
                 </div>
-                <div class="col-md-4">
-                    <img src="imagenes/logo_vet.png" alt="logo" class="img-rounded" class="img-responsive" width="150px">
+                <div class="col-md-1">
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

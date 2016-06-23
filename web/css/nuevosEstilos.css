@@ -1,0 +1,55 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22-jun-2016, 18:02:49
+    Author     : CristianFaune
+*/
+
+#margen-login{
+    margin-top: 230px;
+}
+
+#margen-menu{
+    margin-top: 20px;
+}
+
+#centrar-logo{
+    position: absolute;
+    margin-top: -20px;
+    margin-left: 200px;
+}
+
+#img{
+    opacity: 0.2;
+}
+
+#titulo-index{
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+}
+
+body {
+    background-image: url("img/background.png");
+    background-repeat: repeat-y;
+}
+
+#parrafo{
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+}
+
+#titulos{
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+}
+
+.centered-pills { text-align:center; }
+.centered-pills ul.nav-pills { display:inline-block; }
+.centered-pills li { display:inline; }
+.centered-pills a { float:left; }
+* html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
+*+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
+
