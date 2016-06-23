@@ -46,10 +46,22 @@ body {
     font-size: 25px;
 }
 
+#info{
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-style: oblique;
+}
+
 .centered-pills { text-align:center; }
 .centered-pills ul.nav-pills { display:inline-block; }
 .centered-pills li { display:inline; }
 .centered-pills a { float:left; }
 * html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
 *+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
+
+#borde-imagen{
+    border-style:solid;
+    border-width:thin;
+    border-color: #23527c;
+}
 

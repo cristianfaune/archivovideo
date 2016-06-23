@@ -26,7 +26,7 @@
                     <p  class="text-right"id="parrafo">
                         <a href="">cerrar sesión</a>
                     </p>
-                    <br><br>
+                    <br>
                     <div class="centered-pills">
                         <ul class="nav nav-pills">
                             <li role="presentation"><a href="#">Inicio</a></li>
@@ -35,7 +35,7 @@
                         </ul>
                     </div>
                     <hr>
-                    <br><br>
+                    <br>
                 </div>
                 <div class="col-md-1"></div>
             </div>
@@ -43,8 +43,20 @@
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <p class="text-center" id="parrafo">Ingresa los datos para el nuevo archivo</p>
+                    <br>
+                    <div class="row">
+                        <form action="UploadServlet" method="post" enctype="multipart/form-data">
+                            <div class="col-md-12" id="borde-imagen">
+                                <p id="palanquin-font">Carga tu video:</p>
+                                <input class="btn btn-default btn-primary btn-sm" type="file" name="dataFile" size="20" accept="video/*"/>
+                                <input class="btn btn-default" type="submit" value="Cargar" />
+                            </div>
+                        </form>
+                    </div>
+                    <br>
+                    <label>Categoría de video:</label>
                     <form action="<c:url value="RegistroVideoServlet"/>" method="post">
-                        <select class="form-control">
+                        <select class="form-control" name="categoria">
                             <option value="0">--seleccione categoría--</option>
                             <c:forEach var="dato" items="${lstCategoria}">
                                 <option value="${dato.idCategoria}">
@@ -58,11 +70,47 @@
                             <input class="form-control" type="text" name="nombre">
                         </div>
                         <br>
-                        <div>
-                            <label>Duracion:</label>
-                            <time class="form-control" datetime="HH:MM[:SS[.mmm]]" name="duracion"></time>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Horas:</label>
+                                <input class="form-control" type="number" name="horas" placeholder="00" min="00">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Minutos:</label>
+                                <input class="form-control" type="number" name="minutos" placeholder="00" min="00" max="59">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Segundos:</label>
+                                <input class="form-control" type="number" name="segundos" placeholder="00" min="" max="59">
+                            </div> 
                         </div>
-                    </form>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Fecha Origen:</label>
+                                <input class="form-control" type="date" name="fechaOrigen">
+                            </div>
+                        </div>
+                        <br>
+                        <label>Resolución de video:</label>
+                        <form action="<c:url value="RegistroVideoServlet"/>" method="post">
+                            <select class="form-control" name="resolucion">
+                                <option value="0">--seleccione resolución--</option>
+                                <c:forEach var="dato" items="${lstResolucion}">
+                                    <option value="${dato.idResolucion}">
+                                        <c:out value="${dato.idResolucion} ${dato.descripcion}"></c:out>
+                                        </option>
+                                </c:forEach>
+                            </select>
+                            <br>
+                            <label>Descripción:</label>
+                            <p id="info">(puedes escribir palabras claves que te ayuden a su posterior búsqueda)</p>
+                            <textarea class="form-control" rows="6" name="descripcion"></textarea>
+                            <br><br>
+                            <input type="hidden" name="nombreVideo" value="${nombreArchivo}">
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                        </form>
                 </div>
                 <div class="col-md-4"></div>
             </div>
