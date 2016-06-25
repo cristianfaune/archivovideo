@@ -52,6 +52,12 @@ body {
     font-style: oblique;
 }
 
+#info-error{
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-style: oblique;
+}
+
 .centered-pills { text-align:center; }
 .centered-pills ul.nav-pills { display:inline-block; }
 .centered-pills li { display:inline; }
@@ -65,3 +71,7 @@ body {
     border-color: #23527c;
 }
 
+#palanquin-font{
+    font-family: 'Palanquin', sans-serif;
+    font-size: 20px;
+}

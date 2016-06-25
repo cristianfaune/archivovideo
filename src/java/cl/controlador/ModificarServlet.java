@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cl.controlador;
 
 import cl.dominio.Categoria;
 import cl.dominio.Resolucion;
 import cl.dominio.Usuario;
 import cl.dominio.Video;
+import cl.dto.VideoCatResDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,8 +29,8 @@ import javax.sql.DataSource;
  *
  * @author CristianFaune
  */
-@WebServlet(name = "RegistroVideoServlet", urlPatterns = {"/RegistroVideoServlet"})
-public class RegistroVideoServlet extends HttpServlet {
+@WebServlet(name = "ModificarServlet", urlPatterns = {"/ModificarServlet"})
+public class ModificarServlet extends HttpServlet {
 
     @Resource(mappedName = "jdbc/archivovideo")
     private DataSource ds;
@@ -43,22 +39,35 @@ public class RegistroVideoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        Usuario us = (Usuario) session.getAttribute("usuarioSesion");
+        String idVideo = request.getParameter("idVideo");
+        Video video = new Video();
+        String horas;
+        String minutos;
+        String segundos;
 
         try (Connection con = ds.getConnection()) {
 
             Servicio servicio = new Servicio(con);
 
+            video = servicio.buscarVideoPorId(idVideo);
+
+            horas = video.getDuracion().substring(0, 2);
+            minutos = video.getDuracion().substring(3, 5);
+            segundos = video.getDuracion().substring(6, 8);
+
             ArrayList<Categoria> lista = servicio.buscarTodasCategorias();
             ArrayList<Resolucion> listaResolucion = servicio.buscarTodasResolucion();
 
+            request.setAttribute("video", video);
+            request.setAttribute("horas", horas);
+            request.setAttribute("minutos", minutos);
+            request.setAttribute("segundos", segundos);
             request.setAttribute("lstCategoria", lista);
             request.setAttribute("lstResolucion", listaResolucion);
-            request.getRequestDispatcher("RegistroVideo.jsp").forward(request, response);
+            request.getRequestDispatcher("Modificar.jsp").forward(request, response);
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión bd", e);
+            throw new RuntimeException("error en la conexión a la bd", e);
         }
 
     }
@@ -74,7 +83,7 @@ public class RegistroVideoServlet extends HttpServlet {
 
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
-        mapMensajeExito.put("mensajeExito", "**El video fue registrado exitosamente**");
+        mapMensajeExito.put("mensajeExito", "**El video fue actualizado exitosamente**");
 
         String categoria = request.getParameter("categoria");
         String nombre = request.getParameter("nombre");
@@ -84,7 +93,8 @@ public class RegistroVideoServlet extends HttpServlet {
         String fechaOrigen = request.getParameter("fechaOrigen");
         String resolucion = request.getParameter("resolucion");
         String descripcion = request.getParameter("descripcion");
-        String nombreArchivo = request.getParameter("nombreVideo");
+        ArrayList<VideoCatResDTO> listaVideo = new ArrayList<>();
+        String idVideo = request.getParameter("idVideo");
 
         String duracion = "";
 
@@ -94,10 +104,7 @@ public class RegistroVideoServlet extends HttpServlet {
 
             Servicio servicio = new Servicio(con);
 
-            ArrayList<Categoria> lista = servicio.buscarTodasCategorias();
-            ArrayList<Resolucion> listaResolucion = servicio.buscarTodasResolucion();
-
-            int cont = servicio.numFilasVideo();
+            listaVideo = servicio.todosLosVideos();
 
             if (categoria.equals("0")) {
                 mapMensaje.put("errorCategoria", "**Debe ingresar una categoría**");
@@ -135,6 +142,8 @@ public class RegistroVideoServlet extends HttpServlet {
             duracion = horas + ":" + minutos + ":" + segundos;
 
             video.setDuracion(duracion);
+            
+            video.setIdVideo(idVideo);
 
             if (fechaOrigen.isEmpty()) {
                 mapMensaje.put("errorFecha", "**Debe seleccionar una fecha**");
@@ -152,26 +161,15 @@ public class RegistroVideoServlet extends HttpServlet {
 
             }
 
-            video.setFechaSubida(new Timestamp(System.currentTimeMillis()));
-
-            video.setRut(us.getRut());
-
             video.setDescripcion(descripcion);
 
-            video.setIdVideo(categoria + resolucion + String.format("%04d", cont));
-
-            video.setRutaArchivoVideo("video/" + nombreArchivo);
-
             if (mapMensaje.isEmpty()) {
-                servicio.registrarVideo(video);
-                request.setAttribute("mensaje", mapMensajeExito);
-                request.getRequestDispatcher("RegistroVideo.jsp").forward(request, response);
+                servicio.modificarVideo(video);
+                request.setAttribute("mensajeActualizado", mapMensajeExito);
+                request.setAttribute("lstVideos", listaVideo);
+                request.getRequestDispatcher("Consulta.jsp").forward(request, response);
             } else {
-                request.setAttribute("nombreArchivo", nombreArchivo);
-                request.setAttribute("lstCategoria", lista);
-                request.setAttribute("lstResolucion", listaResolucion);
-                request.setAttribute("mensajeError", mapMensaje);
-                request.getRequestDispatcher("RegistroVideo.jsp").forward(request, response);
+                request.getRequestDispatcher("Modificar.jsp").forward(request, response);
             }
 
         } catch (SQLException e) {
@@ -179,5 +177,4 @@ public class RegistroVideoServlet extends HttpServlet {
         }
 
     }
-
 }

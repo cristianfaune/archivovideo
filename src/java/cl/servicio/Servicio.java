@@ -9,7 +9,9 @@ import cl.dominio.Categoria;
 import cl.dominio.Resolucion;
 import cl.dominio.Usuario;
 import cl.dominio.Video;
+import cl.dto.VideoCatResDTO;
 import cl.persistencia.CategoriaDAO;
+import cl.persistencia.ConsultaDAO;
 import cl.persistencia.ResolucionDAO;
 import cl.persistencia.UsuarioDAO;
 import cl.persistencia.VideoDAO;
@@ -25,12 +27,14 @@ public class Servicio {
     CategoriaDAO categoriaDAO;
     ResolucionDAO resolucionDAO;
     VideoDAO videoDAO;
+    ConsultaDAO consultaDAO;
 
     public Servicio(Connection con) {
         usuarioDAO = new UsuarioDAO(con);
         categoriaDAO = new CategoriaDAO(con);
         resolucionDAO = new ResolucionDAO(con);
         videoDAO = new VideoDAO(con);
+        consultaDAO = new ConsultaDAO(con);
     }
     
     public Usuario buscarUsuarioEmail(String usuarioEmail) {
@@ -49,7 +53,23 @@ public class Servicio {
         videoDAO.registrarVideo(video);
     }
     
-    public int numeroFilaVideo() {
-        return videoDAO.numeroFilaVideo();
+    public int numFilasVideo() {
+        return videoDAO.numFilasVideo();
+    }
+    
+    public ArrayList<VideoCatResDTO> todosLosVideos() {
+        return consultaDAO.todosLosVideos();
+    }
+    
+    public void eliminarVideo(String idVideo) {
+        videoDAO.eliminarVideo(idVideo);
+    }
+    
+    public Video buscarVideoPorId(String idVideo) {
+        return videoDAO.buscarVideoPorId(idVideo);
+    }
+    
+    public void modificarVideo(Video video) {
+        videoDAO.modificarVideo(video);
     }
 }

@@ -24,14 +24,14 @@
                     <p id="parrafo"><c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"/></p>
 
                     <p  class="text-right"id="parrafo">
-                        <a href="">cerrar sesión</a>
+                        <a href="<c:url value="index.jsp"/>">cerrar sesión</a>
                     </p>
                     <br><br>
                     <div class="centered-pills">
                         <ul class="nav nav-pills">
-                            <li role="presentation"><a href="#">Inicio</a></li>
+                            <li role="presentation"><a href="<c:url value="Menu.jsp"/>">Inicio</a></li>
                             <li role="presentation"><a href="<c:url value="RegistroVideoServlet"/>">Registro Video</a></li>
-                            <li role="presentation"><a href="#">Consulta</a></li>
+                            <li role="presentation"><a href="<c:url value="ConsultaServlet"/>">Consulta</a></li>
                         </ul>
                     </div>
                     <hr>
